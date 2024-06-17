@@ -3,4 +3,5 @@ repositories:
   - git: https://gitflic.ru/project/kinnalru/doppelganger.git
     mirrors:
       - git@github.com:kinnalru/doppelganger.git
+      - git@github.com:kinnalru/doppelganger.git
 
