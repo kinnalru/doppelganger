@@ -13,7 +13,7 @@
 //#include <QtNetworkAuth/qoauth2authorizationcodeflow.h>
 
 
-#include "yandexoauth.h""
+#include "yandexoauth.h"
 
 bool readSettingsJson(QIODevice &device, QMap<QString, QVariant> &map);
 bool writeSettingsJson(QIODevice &device, const QMap<QString, QVariant> &map);
