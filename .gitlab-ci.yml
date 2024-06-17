@@ -12,7 +12,7 @@ mirror:
   stage: schedule
   image: ruby:3.0-alpine
   variables:
-    APK_CACHE_DIR: $CI_PROJECT_DIR/.cache/apk
+    APK_CACHE_DIR: .cache/apk
   cache:
     key: repositories-cache
     paths:
@@ -24,6 +24,7 @@ mirror:
     variables:
       - $SCRIPTNAME == "gitmirror"
   before_script: &before_pipeline_script
+    - mkdir -p $APK_CACHE_DIR
     - which ssh-agent || apk add --cache-dir $APK_CACHE_DIR openssh git
     - eval $(ssh-agent -s)
     - ssh-add <(echo "$SSH_SYNC_RSA_KEY")
