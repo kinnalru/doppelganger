@@ -1,0 +1,35 @@
+stages:
+  - schedule
+  - test
+  - scan-agg-cloud
+  - scan-agg-cloud-socks-proxy-internal
+  - scan-fns-proxy
+  - scan-db-agg-from-office
+  - scan-public-ip-from-office
+  - notify
+
+mirror:
+  stage: schedule
+  image: ruby:3.0-alpine
+  variables:
+    APK_CACHE_DIR: $CI_PROJECT_DIR/.cache/apk
+  cache:
+    key: repositories-cache
+    paths:
+      - repositories
+      - $APK_CACHE_DIR
+  only:
+    refs:
+      - schedules
+    variables:
+      - $SCRIPTNAME == "gitmirror"
+  before_script: &before_pipeline_script
+    - which ssh-agent || apk add --cache-dir $APK_CACHE_DIR openssh git
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_SYNC_RSA_KEY")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  script:
+    - gem install gitbulk
+    - gitbulk
+  
