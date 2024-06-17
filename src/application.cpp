@@ -1,10 +1,13 @@
 // #include <QTextCodec>
 
 #include "application.h"
+#include "qt_json_settings.h"
 
 Application::Application(int &argc, char **argv)
     : QApplication(argc, argv)
+    , settings_(0)
 {
+    QtJsonSettings::initialize();
     init();
 }
 
@@ -84,4 +87,14 @@ void Application::init()
     // QApplication::setStyle(app_settings().style_name());
 }
 
-
+Settings &Application::settings()
+{
+    if (!settings_) {
+        settings_ = new Settings(QtJsonSettings::format(),
+                                 QSettings::UserScope,
+                                 organizationName(),
+                                 applicationName(),
+                                 this);
+    }
+    return *settings_;
+}

@@ -10,14 +10,20 @@ set(TS_FILES tr/doppelganger_ru_RU.ts)
 set(PROJECT_HEADERS
         mainwindow.h
         application.h
-        yandexoauth.h
+        yandex_api.h
+        qt_json_settings.h
+        settings.h
+        unison.h
 )
 
 set(PROJECT_SOURCES
         main.cpp
         mainwindow.cpp
         application.cpp
-        yandexoauth.cpp
+        yandex_api.cpp
+        qt_json_settings.cpp
+        settings.cpp
+        unison.cpp
 )
 
 set(PROJECT_UICS
