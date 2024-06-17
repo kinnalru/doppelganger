@@ -1,0 +1,6 @@
+workdir: repositories
+repositories:
+  - git: git@gitflic.ru:kinnalru/doppelganger.git
+    mirrors:
+      - git@github.com:kinnalru/doppelganger.git
+
