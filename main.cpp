@@ -7,9 +7,13 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QIODevice>
+
+#include <QDebug>
 // #include <QOAuth2AuthorizationCodeFlow>
 //#include <QtNetworkAuth/qoauth2authorizationcodeflow.h>
 
+
+#include "yandexoauth.h""
 
 bool readSettingsJson(QIODevice &device, QMap<QString, QVariant> &map);
 bool writeSettingsJson(QIODevice &device, const QMap<QString, QVariant> &map);
@@ -25,7 +29,7 @@ int main(int argc, char *argv[])
     app.setOrganizationName("jerry_ru");
     app.setApplicationName("doppelganger");
 
-    app.setQuitOnLastWindowClosed(false);
+    app.setQuitOnLastWindowClosed(true);
 
     QTranslator translator;
     const QStringList uiLanguages = QLocale::system().uiLanguages();
@@ -45,6 +49,12 @@ int main(int argc, char *argv[])
 
     MainWindow w;
     w.show();
+
+    qDebug() << "hello";
+
+    auto yo = new YandexOauth("7a9abeac6d0a491db7cfc8313448bc43");
+    yo->grant();
+
 
     // unison-text -group  -times -acl -xattrs -copyonconflict -batch -clientHostName=clietn -fastcheck true -rootalias "//jerrybook//home/jerry/Documents/mirror/1 -> a1" -batch /home/jerry/Documents/mirror/1 /home/jerry/Documents/mirror/2
     return app.exec();
