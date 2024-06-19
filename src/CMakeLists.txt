@@ -14,6 +14,9 @@ set(PROJECT_HEADERS
         qt_json_settings.h
         settings.h
         unison.h
+        replicas_controller.h
+        replicas/config.h
+        replicas/config_provider.h
 )
 
 set(PROJECT_SOURCES
@@ -24,6 +27,9 @@ set(PROJECT_SOURCES
         qt_json_settings.cpp
         settings.cpp
         unison.cpp
+        replicas_controller.cpp
+        replicas/config.cpp
+        replicas/config_provider.cpp
 )
 
 set(PROJECT_UICS
@@ -34,6 +40,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(doppelganger
         MANUAL_FINALIZATION
         ${PROJECT_HEADERS} ${PROJECT_SOURCES} ${PROJECT_UICS} ${TS_FILES}
+
     )
     qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 else()

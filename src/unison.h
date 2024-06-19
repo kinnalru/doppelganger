@@ -18,38 +18,41 @@ signals:
 
 #define GENERATE_PROPERTY(name, value_type, default_value)                     \
 private:                                                                       \
-  Q_PROPERTY(value_type name READ name WRITE set_##name RESET reset_##name)    \
+  QVariant name##_;                                                            \
+  Q_PROPERTY(value_type name MEMBER name##_ READ name WRITE set_##name RESET   \
+                 reset_##name)                                                 \
 public:                                                                        \
   value_type name() const {                                                    \
-    QVariant v = QObject::property("##name##");                                \
-    if (v.isNull()) {                                                          \
+    qDebug() << "PROP:" << this << name##_.isNull();                           \
+    if (name##_.isNull()) {                                                    \
       return default_##name();                                                 \
     }                                                                          \
-    return v.value<value_type>();                                              \
+    return name##_.value<value_type>();                                        \
   };                                                                           \
-  bool set##_name(const value_type &val) {                                     \
-    return QObject::setProperty("##name##", QVariant::fromValue(val));         \
+  void set##_name(const value_type &val) {                                     \
+    name##_ = QVariant::fromValue(val);                                        \
   }                                                                            \
   value_type default_##name() const { return value_type(default_value); }      \
-  void reset_##name() { QObject::setProperty("##name##", QVariant()); }
+  void reset_##name() { name##_ = QVariant(); }
 
 class Replica : public QObject {
   Q_OBJECT
-  Q_PROPERTY(QString path READ path WRITE set_path)
+  Q_PROPERTY(QString path MEMBER path_ READ path WRITE set_path)
   GENERATE_PROPERTY(name, QString, "")
 public:
-  explicit Replica(){};
+  explicit Replica() {};
 
-  bool is_ready() { return QFileInfo(path() + "/" + ".doppelganger").exists(); }
-
-  QString path() const {
-    return QFileInfo(QObject::property("_path_").value<QString>())
-        .canonicalFilePath();
+  bool is_ready() {
+    qDebug() << "READY0" << this;
+    qDebug() << "READY1" << path();
+    return QFileInfo(path() + "/" + ".doppelganger").exists();
   }
 
-  bool set_path(const QString &path) {
-    return QObject::setProperty(
-        "_path_", QVariant::fromValue(QFileInfo(path).canonicalFilePath()));
+  QString path() const { return QFileInfo(path_).canonicalFilePath(); }
+
+  void set_path(const QString &path) {
+    qDebug() << "set path" << path;
+    path_ = QFileInfo(path).canonicalFilePath();
   }
 
   QJsonObject to_json() {
@@ -64,6 +67,7 @@ public:
   }
 
 private:
+  QString path_;
 };
 
 #endif // UNISON_H
