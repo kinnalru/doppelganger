@@ -4,14 +4,16 @@
 #include <QList>
 #include <QObject>
 
-class Replica;
+namespace Replicas {
+class Unit;
+}
 
 class ReplicasController : public QObject {
   Q_OBJECT
 public:
   explicit ReplicasController(QObject *parent = nullptr);
 
-  void add_replica(Replica *r);
+  void add_replica(Replicas::Unit *r);
 
 public slots:
   void refresh();
@@ -20,7 +22,7 @@ signals:
   void refreshed();
 
 private:
-  QList<Replica *> replicas_;
+  QList<Replicas::Unit *> replicas_;
 };
 
 #endif // REPLICAS_CONTROLLER_H

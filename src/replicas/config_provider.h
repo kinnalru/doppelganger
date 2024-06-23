@@ -8,20 +8,23 @@ class QSettings;
 
 namespace Replicas {
 
-class ConfigProvider : public QObject
-{
-    Q_OBJECT
+class ConfigProvider : public QObject {
+  Q_OBJECT
 public:
-    explicit ConfigProvider(const QString &path, QObject *parent = nullptr);
+  explicit ConfigProvider(const QString &path, QObject *parent = nullptr);
 
-    void add_replica(const QString &name);
+  void load();
+  void save();
+
+  void add_replica(const QString &name);
+  void remove_replica(const QString &name);
 
 signals:
-    void refresh(const QStringList &);
+  void refresh(const QStringList &);
 
 private:
-    QSettings *config_;
-    QJsonArray list_;
+  QSettings *config_;
+  QJsonArray list_;
 };
 
 } // namespace Replicas

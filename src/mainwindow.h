@@ -3,7 +3,9 @@
 
 #include <QMainWindow>
 
-#include "unison.h"
+namespace Replicas {
+class Unit;
+}
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -18,7 +20,7 @@ public:
   MainWindow(QWidget *parent = nullptr);
   ~MainWindow();
 
-  void add_replica(Replica *r);
+  void add_replica(Replicas::Unit *r);
 
 signals:
   void refreshed();
